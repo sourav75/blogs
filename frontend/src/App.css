@@ -56,6 +56,13 @@ button {
 button:hover {
   background: #4338ca;
 }
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #e5e7eb !important;
+  color: #a1a1aa !important;
+  border: 1px solid #d1d5db !important;
+}
 
 .notification {
   background: #e0e7ff;

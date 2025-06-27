@@ -18,6 +18,7 @@ function App() {
   const [searchUser, setSearchUser] = useState('');
   const [searchId, setSearchId] = useState('');
   const [singleBlog, setSingleBlog] = useState(null);
+  const [pagination, setPagination] = useState({ page: 1, limit: 10, totalPages: 1 });
 
   useEffect(() => {
     getProfile().then(profile => {
@@ -39,8 +40,9 @@ function App() {
     if (!user) {
       setBlogs([]);
       setSingleBlog(null);
+      setPagination({ page: 1, limit: 10, totalPages: 1 });
     } else {
-      fetchAllBlogs(); // Show all blogs by default after login
+      fetchAllBlogs(1, pagination.limit); // Show all blogs by default after login
     }
   }, [user]);
 
@@ -93,9 +95,10 @@ function App() {
     }
   };
 
-  const fetchAllBlogs = async () => {
-    const res = await getAllBlogs();
-    setBlogs(res);
+  const fetchAllBlogs = async (page = 1, limit = 10) => {
+    const res = await getAllBlogs(page, limit);
+    setBlogs(res.blogs);
+    setPagination({ page: res.page, limit: res.limit, totalPages: res.totalPages });
     setViewMode('all');
   };
 
@@ -118,7 +121,7 @@ function App() {
           </div>
         )}
       </header>
-      <Notification message={notification} />
+      {user && <Notification message={notification} />}
       <main style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
         {!user ? (
           <div style={{ maxWidth: 400, margin: '0 auto' }}>
@@ -162,7 +165,18 @@ function App() {
               {(viewMode === 'my' || viewMode === 'user') && (
                 <BlogList blogs={blogs} title={viewMode === 'my' ? 'My Blogs' : `Blogs by ${searchUser}`} />
               )}
-              {viewMode === 'all' && <BlogList blogs={blogs} title="All Blogs" />}
+              {viewMode === 'all' && (
+                <>
+                  <BlogList blogs={blogs} title="All Blogs" />
+                  {blogs.length > 0 && pagination.totalPages > 1 && (
+                    <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+                      <button onClick={() => fetchAllBlogs(Math.max(1, pagination.page - 1), pagination.limit)} disabled={pagination.page === 1}>Prev</button>
+                      <span>Page {pagination.page} of {pagination.totalPages}</span>
+                      <button onClick={() => fetchAllBlogs(Math.min(pagination.totalPages, pagination.page + 1), pagination.limit)} disabled={pagination.page === pagination.totalPages}>Next</button>
+                    </div>
+                  )}
+                </>
+              )}
             </section>
           </>
         )}

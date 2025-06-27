@@ -48,10 +48,22 @@ exports.getBlogsByUser = (req, res) => {
 };
 
 exports.getAllBlogs = (req, res) => {
+  // Pagination params
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
   const allBlogs = [];
   for (const userBlogs of blogsByUser.values()) {
     allBlogs.push(...userBlogs.values());
   }
   allBlogs.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  res.json(allBlogs);
+  // Pagination logic
+  const start = (page - 1) * limit;
+  const paginated = allBlogs.slice(start, start + limit);
+  res.json({
+    blogs: paginated,
+    page,
+    limit,
+    total: allBlogs.length,
+    totalPages: Math.ceil(allBlogs.length / limit)
+  });
 };

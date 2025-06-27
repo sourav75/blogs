@@ -50,8 +50,8 @@ export async function getBlogsByUser(username) {
   return res.json();
 }
 
-export async function getAllBlogs() {
-  const res = await fetch(`${API_BASE}/blogs`);
+export async function getAllBlogs(page = 1, limit = 10) {
+  const res = await fetch(`${API_BASE}/blogs?page=${page}&limit=${limit}`);
   return res.json();
 }
 

@@ -112,12 +112,12 @@ function App() {
 
   return (
     <div className="App">
-      <header style={{ marginBottom: 32, borderBottom: '1px solid #e5e7eb', paddingBottom: 16 }}>
-        <h1 style={{ margin: 0, color: '#4f46e5', fontWeight: 800, fontSize: '2.2rem' }}>Blog Platform</h1>
+      <header className="header-bar">
+        <h1>Blog Platform</h1>
         {user && (
-          <div style={{ marginTop: 8, fontSize: '1.1rem', color: '#6366f1' }}>
-            Welcome, <b>{user}</b>!
-            <button style={{ marginLeft: 16, background: '#f87171', color: '#fff' }} onClick={handleLogout}>Logout</button>
+          <div className="header-right">
+            <span>Welcome, <b>{user}</b>!</span>
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </div>
         )}
       </header>

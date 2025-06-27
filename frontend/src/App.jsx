@@ -37,9 +37,10 @@ function App() {
   useEffect(() => {
     // Reset to login page on refresh if not authenticated
     if (!user) {
-      setViewMode('my');
       setBlogs([]);
       setSingleBlog(null);
+    } else {
+      fetchAllBlogs(); // Show all blogs by default after login
     }
   }, [user]);
 

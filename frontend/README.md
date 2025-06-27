@@ -2,6 +2,8 @@
 
 This is the frontend for the Blogs project, built with React and Vite.
 
+> **Note:** Requires Node.js v20.19.3 or higher.
+
 ## Getting Started
 
 1. Install dependencies:

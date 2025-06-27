@@ -134,3 +134,20 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Backend node_modules and lock files
+backend/node_modules/
+backend/package-lock.json
+backend/.env
+
+# Frontend build and cache files
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.vite/
+frontend/.cache/
+frontend/.eslintcache
+frontend/.parcel-cache
+frontend/.next/
+frontend/.nuxt/
+frontend/.docusaurus/
